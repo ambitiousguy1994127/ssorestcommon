@@ -1,0 +1,36 @@
+From old POM:
+
+<!-- BEGIN OBFUSCATE -->
+<plugin>
+	<groupId>com.idfconnect.devtools</groupId>
+	<artifactId>idfc-proguard-maven-plugin</artifactId>
+	<version>1.0.1</version>
+	<executions>
+		<execution>
+			<phase>package</phase>
+			<goals>
+				<goal>obfuscate</goal>
+			</goals>
+		</execution>
+	</executions>
+	<configuration>
+		<attach>false</attach> 
+		<shrink>false</shrink>
+		<skip>true</skip>
+		<libraryJars>
+			<libraryJar>${java.home}/lib/jsse.jar</libraryJar> 
+		</libraryJars>
+		<options>
+			<repackageclasses>com.idfconnect.ssorest.common</repackageclasses>
+			<keepattributes>Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,Synthetic,EnclosingMethod</keepattributes> 
+		</options>
+	</configuration>
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.proguard</groupId>
+			<artifactId>proguard-base</artifactId>
+			<version>4.9</version>
+		</dependency> 
+	</dependencies> 
+</plugin>
+<!-- END OBFUSCATE -->

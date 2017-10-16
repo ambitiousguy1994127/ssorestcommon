@@ -1,0 +1,223 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>common-tools</artifactId>
+	<name>SSORest Common Tools</name>
+	<description>Common tools and utility classes</description>
+	<url>http://mars.idfconnect.com/projects/common-tools</url>
+
+	<parent>
+		<groupId>com.idfconnect.ssorest</groupId>
+		<artifactId>base</artifactId>
+		<version>3.0.2-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<proguard.skip>true</proguard.skip>
+		<jedis.version>2.9.0</jedis.version>
+		<commons-codec.version>1.10</commons-codec.version>
+		<commons-logging.version>1.1.3</commons-logging.version>
+		<aspectj.version>1.8.10</aspectj.version>
+		<crypto_password>changeit</crypto_password>
+	</properties>
+
+	<scm>
+		<connection>scm:svn:https://idfconnect.svn.cloudforge.com/ssorestcommon/branches/3.x</connection>
+		<developerConnection>scm:svn:https://idfconnect.svn.cloudforge.com/ssorestcommon/branches/3.x</developerConnection>
+		<url>https://idfconnect.svn.cloudforge.com/ssorestcommon/branches/3.x</url>
+	</scm>
+
+	<distributionManagement>
+		<site>
+			<id>mars.idfconnect.com</id>
+			<name>mars.idfconnect.com-site-common-tools</name>
+			<url>dav:https://mars.idfconnect.com/projects/common-tools</url>
+		</site>
+	</distributionManagement>
+
+	<build>
+		<plugins>
+			<!--CLASS TRANSFORMER -->
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>templating-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>filter-sources</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- ASPECTJ -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>aspectj-maven-plugin</artifactId>
+				<version>1.10</version>
+				<configuration>
+					<complianceLevel>${java.compile.version}</complianceLevel>
+					<source>${java.compile.version}</source>
+					<target>${java.compile.version}</target>
+					<deprecation>true</deprecation>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<showWeaveInfo>true</showWeaveInfo>
+					<forceAjcCompile>true</forceAjcCompile>
+					<verbose>false</verbose>
+					<Xlint>warning</Xlint>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>       <!-- use this goal to weave all your main classes -->
+							
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- BEGIN TEST JAR -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- END TEST JAR -->
+
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											aspectj-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.10,)
+										</versionRange>
+										<goals>
+											<goal>compile</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons-codec.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<optional>true</optional>
+			<version>${jedis.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons-logging.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>2.8.9</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.strapdata</groupId>
+			<artifactId>javassist-maven-plugin</artifactId>
+			<version>2.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-cli</groupId>
+			<artifactId>commons-cli</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+</project>

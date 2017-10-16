@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+	<!-- Define the context name - change if you have multiple deployments of 
+		SSORest, especially if they will share a common log file or other appender -->
+	<contextName>SSORest</contextName>
+
+	<!-- Console logger - this may be disabled if not needed -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Throttle some chatty packages -->
+	<logger name="org.apache.catalina" level="WARN" />
+	<logger name="org.apache.jasper" level="WARN" />
+	<logger name="org.apache.tomcat.util" level="WARN" />
+	<logger name="javax.xml.bind" level="WARN" />
+	<logger name="com.sun.xml" level="WARN" />
+	<logger name="com.sun.jersey.core.spi.component" level="WARN" />
+
+	<!-- Define our root logger and log level -->
+	<root level="DEBUG">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>
